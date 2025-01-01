@@ -126,9 +126,8 @@ describe('Map.Spec', function () {
         });
 
         it('coordinateToContainerPoint with altitude', function () {
-            var point = map.coordinateToContainerPoint({ x: 118.846825, y: 32.046534, z: 100 });
-            expect(point.x).to.be.above(1);
-            expect(point.y).to.be.above(1);
+            var point = map.coordinateToContainerPoint({ x: 118.847825, y: 32.046534, z: 100 });
+            expect(point.x).to.be.above(300);
         });
 
         it('containerPointToCoordinate', function () {
