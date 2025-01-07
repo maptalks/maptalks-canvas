@@ -48,10 +48,12 @@ describe('GeoJSON', function () {
         {
             'type': 'GeometryCollection',
             'geometries': [
-                { 'type': 'Point',
+                {
+                    'type': 'Point',
                     'coordinates': [100.0, 0.0]
                 },
-                { 'type': 'LineString',
+                {
+                    'type': 'LineString',
                     'coordinates': [[101.0, 0.0], [102.0, 1.0]]
                 }
             ]
@@ -61,11 +63,13 @@ describe('GeoJSON', function () {
     var featureCollectionGeoJSON = {
         'type': 'FeatureCollection',
         'features': [
-            { 'type': 'Feature',
+            {
+                'type': 'Feature',
                 'geometry': { 'type': 'Point', 'coordinates': [102.0, 0.5] },
                 'properties': { 'prop0': 'value0' }
             },
-            { 'type': 'Feature',
+            {
+                'type': 'Feature',
                 'geometry': {
                     'type': 'LineString',
                     'coordinates': [
@@ -77,12 +81,13 @@ describe('GeoJSON', function () {
                     'prop1': 0.0
                 }
             },
-            { 'type': 'Feature',
+            {
+                'type': 'Feature',
                 'geometry': {
                     'type': 'Polygon',
                     'coordinates': [
                         [[100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
-                            [100.0, 1.0], [100.0, 0.0]]
+                        [100.0, 1.0], [100.0, 0.0]]
                     ]
                 },
                 'properties': {
@@ -213,6 +218,22 @@ describe('GeoJSON', function () {
                 geometry.config('zIndex', 0);
             });
             expect(point.options['zIndex']).to.be.eql(0);
+        });
+    });
+
+    describe('filter call back', function () {
+
+        it('FeatureCollection', function () {
+            var fJsons = featureCollectionGeoJSON['features'];
+            var geos = maptalks.GeoJSON.toGeometry(featureCollectionGeoJSON, null, (geometry) => geometry instanceof maptalks.Marker);
+            expect(geos.length).to.be.eql(1);
+        });
+
+        it('FeatureCollection width async', function () {
+            var fJsons = featureCollectionGeoJSON['features'];
+            maptalks.GeoJSON.toGeometryAsync(featureCollectionGeoJSON, null, null, (geometry) => !(geometry instanceof maptalks.Marker)).then(geos => {
+                expect(geos.length).to.be.eql(2);
+            })
         });
     });
 
